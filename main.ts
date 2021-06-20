@@ -1,8 +1,6 @@
 namespace SpriteKind {
-    export const Button = SpriteKind.create()
     export const LeftArrow = SpriteKind.create()
     export const DownArrow = SpriteKind.create()
-    export const ArrowUp = SpriteKind.create()
     export const RightArrow = SpriteKind.create()
     export const UpArrow = SpriteKind.create()
     export const barrier = SpriteKind.create()
