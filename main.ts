@@ -24,15 +24,12 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . f 1 6 6 6 6 6 f . . . . 
         . . . . . f f f f f f f . . . . 
         `)
-    if (arrowLeft.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
+    if (arrowUp.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
         healthBar.value += 2
         info.changeScoreBy(-100)
-    }
-})
-scene.onOverlapTile(SpriteKind.UpArrow, assets.tile`myTile1`, function (sprite, location) {
-    if (controller.up.isPressed()) {
+    } else if (arrowUp.tileKindAt(TileDirection.Center, assets.tile`myTile1`)) {
         info.changeScoreBy(300)
-        tiles.setTileAt(location, assets.tile`transparency16`)
+        tiles.setTileAt(tiles.getTileLocation(8, arrowUp.y / 16), assets.tile`transparency16`)
         healthBar.value += -2
     }
 })
@@ -56,6 +53,11 @@ controller.down.onEvent(ControllerButtonEvent.Released, function () {
         . . . . . . f f f f . . . . . . 
         `)
 })
+scene.onOverlapTile(SpriteKind.barrier, assets.tile`myTile0`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    info.changeScoreBy(-50)
+    healthBar.value += 2
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     arrowLeft.setImage(img`
         . . . . . . f f f . . . . . . . 
@@ -78,6 +80,10 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (arrowLeft.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
         healthBar.value += 2
         info.changeScoreBy(-100)
+    } else if (arrowLeft.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
+        info.changeScoreBy(300)
+        tiles.setTileAt(tiles.getTileLocation(6, arrowLeft.y / 16), assets.tile`transparency16`)
+        healthBar.value += -2
     }
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
@@ -120,12 +126,10 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         . . . . . . f f f . . . . . . . 
         `)
 })
-scene.onOverlapTile(SpriteKind.RightArrow, assets.tile`myTile3`, function (sprite, location) {
-    if (controller.right.isPressed()) {
-        info.changeScoreBy(300)
-        tiles.setTileAt(location, assets.tile`transparency16`)
-        healthBar.value += -2
-    }
+scene.onOverlapTile(SpriteKind.barrier, assets.tile`myTile3`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    info.changeScoreBy(-50)
+    healthBar.value += 2
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     arrowRight.setImage(img`
@@ -149,6 +153,10 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (arrowRight.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
         healthBar.value += 2
         info.changeScoreBy(-100)
+    } else if (arrowRight.tileKindAt(TileDirection.Center, assets.tile`myTile3`)) {
+        info.changeScoreBy(300)
+        tiles.setTileAt(tiles.getTileLocation(9, arrowRight.y / 16), assets.tile`transparency16`)
+        healthBar.value += -2
     }
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
@@ -190,27 +198,27 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . f 6 6 6 6 f . . . . . 
         . . . . . . f f f f . . . . . . 
         `)
-    if (arrowLeft.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
+    if (arrowDown.tileKindAt(TileDirection.Center, assets.tile`transparency16`)) {
         healthBar.value += 2
         info.changeScoreBy(-100)
-    }
-})
-scene.onOverlapTile(SpriteKind.LeftArrow, assets.tile`myTile0`, function (sprite, location) {
-    if (controller.left.isPressed()) {
+    } else if (arrowDown.tileKindAt(TileDirection.Center, assets.tile`myTile`)) {
         info.changeScoreBy(300)
-        tiles.setTileAt(location, assets.tile`transparency16`)
+        tiles.setTileAt(tiles.getTileLocation(7, arrowDown.y / 16), assets.tile`transparency16`)
         healthBar.value += -2
     }
 })
-scene.onOverlapTile(SpriteKind.DownArrow, assets.tile`myTile`, function (sprite, location) {
-    if (controller.down.isPressed()) {
-        info.changeScoreBy(300)
-        tiles.setTileAt(location, assets.tile`transparency16`)
-        healthBar.value += -2
-    }
+scene.onOverlapTile(SpriteKind.barrier, assets.tile`myTile1`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    info.changeScoreBy(-50)
+    healthBar.value += 2
+})
+scene.onOverlapTile(SpriteKind.barrier, assets.tile`myTile`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    info.changeScoreBy(-50)
+    healthBar.value += 2
 })
 statusbars.onStatusReached(StatusBarKind.Health, statusbars.StatusComparison.EQ, statusbars.ComparisonType.Percentage, 100, function (status) {
-    pause(230)
+    pause(200)
     game.over(false)
 })
 let arrowPos = 0
@@ -364,7 +372,7 @@ let late = sprites.create(img`
     ................................................................
     ................................................................
     ................................................................
-    ................................................................
+    9999999999999999999999999999999999999999999999999999999999999999
     `, SpriteKind.barrier)
 arrowLeft = sprites.create(img`
     . . . . . . f f f . . . . . . . 
@@ -444,6 +452,10 @@ arrowUp.setPosition(136, 31)
 arrowRight.setPosition(152, 31)
 late.setPosition(128, 0)
 tiles.setTilemap(tilemap`level1`)
+arrowLeft.z = -100
+arrowDown.z = -100
+arrowUp.z = -100
+arrowRight.z = -100
 arrowLeft.setVelocity(0, 90)
 arrowDown.setVelocity(0, 90)
 arrowUp.setVelocity(0, 90)
